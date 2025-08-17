@@ -23,6 +23,10 @@ type Encoder struct {
 	outremainder []byte
 }
 
+var (
+	_ io.WriteCloser = (*Encoder)(nil)
+)
+
 // NewEncoder creates a new encoder
 func NewEncoder(w io.Writer) *Encoder {
 	e := &Encoder{
@@ -346,11 +350,12 @@ func (e *Encoder) Flush() (n int, err error) {
 
 // Close closes the encoder if it's not closed yet
 // Note that encoder is being closed automatically on GC
-func (e *Encoder) Close() {
+func (e *Encoder) Close() error {
 	if e.closed {
-		return
+		return nil
 	}
 	e.Flush()
 	C.lame_close(e.lgf)
 	e.closed = true
+	return nil
 }
