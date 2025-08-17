@@ -1,3 +1,3 @@
-module github.com/viert/go-lame
+module github.com/drthoben/go-lame
 
-go 1.12
+go 1.25
